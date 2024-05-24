@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Add the following lines to import the routes
+const authRoutes = require('./routes/auth');
+const notesRoutes = require('./routes/notes');
+
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DBNAME = process.env.MONGODB_DBNAME;
@@ -25,6 +29,10 @@ mongoose.connect(`${MONGODB_URI}/${MONGODB_DBNAME}`, {
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
+
+// Add the following lines to use the routes
+app.use('/api/auth', authRoutes);
+app.use('/api', notesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
